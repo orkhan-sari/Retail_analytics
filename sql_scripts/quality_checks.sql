@@ -68,7 +68,7 @@ FROM bronze.coupon_redempt
 GROUP BY household_key, day, coupon_upc, campaign
 HAVING count(*) > 1; -- no duplicates
 
---===============================================
+--===============================================================
 -- Product table checks
 -- checking for any NULL or duplicate values in the product table
 SELECT *
@@ -155,8 +155,17 @@ SELECT coupon_match_disc
 FROM bronze.transaction_data                
 WHERE coupon_match_disc > 0 AND coupon_match_disc < 0.005;
 
+SELECT sales_value, quantity, retail_disc, LEN(sales_value)
+FROM bronze.transaction_data
+WHERE LEN(sales_value) > 9;
+/* 
+All data with scientific notations on sales_value has 0 sales quantitty, 
+so we can ignore these rows or replace with 0 for now. */       
+
 --! The rows with floating point noises are basically 0; let's replace them with 0 in the silver table.
-SELECT household_key, basket_id, day, product_id, quantity, sales_value, store_id, 
+SELECT household_key, basket_id, day, product_id, quantity,
+    CASE WHEN sales_value > 0 AND sales_value < 0.005 THEN 0 ELSE sales_value END AS sales_value,
+     store_id, 
     CASE WHEN retail_disc > 0 AND retail_disc < 0.005 THEN 0 ELSE retail_disc END AS retail_disc,
     trans_time, week_no, coupon_disc, coupon_match_disc
 FROM bronze.transaction_data   

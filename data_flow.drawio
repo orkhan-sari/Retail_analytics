@@ -123,6 +123,12 @@
         <mxCell id="CAtlQKOG3vTEivlR7dcB-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=light-dark(#F0A30A,#C0C0C0);fontColor=light-dark(#000000,#000033);strokeColor=light-dark(#BD7000,#C0C0C0);fontStyle=1" value="Silver Layer" vertex="1">
           <mxGeometry height="40" width="160" x="-374" y="195" as="geometry" />
         </mxCell>
+        <mxCell id="9qOdzKd8JZUGuTlBitFY-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;fontColor=#000000;strokeColor=light-dark(#BD7000,#C0C0C0);dashed=1;perimeterSpacing=8;strokeWidth=4;" value="" vertex="1">
+          <mxGeometry height="500" width="180" x="-180" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="9qOdzKd8JZUGuTlBitFY-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=light-dark(#F0A30A,#C0C0C0);fontColor=light-dark(#000000,#000033);strokeColor=light-dark(#BD7000,#C0C0C0);fontStyle=1" value="Gold Layer" vertex="1">
+          <mxGeometry height="40" width="160" x="-170" y="195" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>

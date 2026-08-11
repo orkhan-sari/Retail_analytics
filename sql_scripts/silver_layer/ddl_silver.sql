@@ -14,8 +14,8 @@ IF OBJECT_ID('silver.campaign_desc', 'U') IS NOT NULL
 GO
 
 CREATE TABLE silver.campaign_desc (
-    description NVARCHAR(50),
     campaign INT,
+    description NVARCHAR(50),
     start_day INT,
     end_day INT
 );
@@ -27,10 +27,10 @@ IF OBJECT_ID('silver.campaign_table', 'U') IS NOT NULL
 GO
 
 CREATE TABLE silver.campaign_table (
-
+    campaign  INT,
     description NVARCHAR(50),
     household_key INT,
-    campaign  INT
+    
 );
 GO
 
@@ -66,14 +66,14 @@ IF OBJECT_ID('silver.hh_demographics', 'U') IS NOT NULL
 GO
 
 CREATE TABLE silver.hh_demographics (
+    household_key INT,
     classification_1 NVARCHAR(50),
     classification_2 NVARCHAR(50),
     classification_3 NVARCHAR(50),
-    homeowner_desc NVARCHAR(50),
     classification_5 NVARCHAR(50),
     classification_4 NVARCHAR(50),
-    kid_category_desc NVARCHAR(50),
-    household_key INT
+    homeowner_desc NVARCHAR(50),
+    kid_category_desc NVARCHAR(50)
 );
 GO
 
@@ -101,14 +101,14 @@ GO
 CREATE TABLE silver.transaction_data (
     household_key INT,
     basket_id VARCHAR(50),
-    day INT,
     product_id INT,
-    quantity INT,
-    sales_value FLOAT,
     store_id INT,
-    retail_disc FLOAT ,
-    trans_time INT,
+    day INT,
     week_no INT,
+    trans_time INT,
+    quantity INT,
+    sales_value DECIMAL(10, 2),
+    retail_disc DECIMAL(10, 2) ,
     coupon_disc DECIMAL(10, 2),
     coupon_match_disc DECIMAL(10, 2)   
 );

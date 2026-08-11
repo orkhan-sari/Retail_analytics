@@ -1,0 +1,37 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="CFBAObQn9T3_uZ05zHs6">
+    <mxGraphModel dx="934" dy="722" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="u4swYFma3TAW3rlBUvYI-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;fontColor=#000000;strokeColor=light-dark(#BD7000,#B4761C);dashed=1;perimeterSpacing=8;strokeWidth=4;" value="" vertex="1">
+          <mxGeometry height="500" width="180" x="130" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="campaign_desc" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="campaign_table" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="coupon" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="410" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="hh_demographics" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="543" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="product&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start; white-space: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20parent%3D%221%22%20style%3D%22rounded%3D1%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BfillColor%3D%23f0a30a%3BfontColor%3D%23000000%3BstrokeColor%3D%23BD7000%3BfontSize%3D14%3B%22%20value%3D%22campaign_table%22%20vertex%3D%221%22%3E%3CmxGeometry%20height%3D%2250%22%20width%3D%22120%22%20x%3D%22160%22%20y%3D%22340%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="613" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="transaction_data" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="683" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontSize=14;" value="coupon_redempt" vertex="1">
+          <mxGeometry height="50" width="120" x="160" y="477" as="geometry" />
+        </mxCell>
+        <mxCell id="u4swYFma3TAW3rlBUvYI-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fontSize=15;fillColor=#f0a30a;fontColor=#000000;strokeColor=#BD7000;fontStyle=1" value="Bronze Layer" vertex="1">
+          <mxGeometry height="40" width="160" x="140" y="200" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
