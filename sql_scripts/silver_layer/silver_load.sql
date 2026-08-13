@@ -132,14 +132,11 @@ SELECT household_key,
     week_no,
     trans_time,
     quantity,
-    CASE 
-        WHEN sales_value > 0 AND sales_value < 0.005 THEN 0 
-        ELSE sales_value END AS sales_value,
-    CASE 
-        WHEN retail_disc > 0 AND retail_disc < 0.005 THEN 0 
-        ELSE retail_disc END AS retail_disc,
+    sales_value,
+    retail_disc,
     coupon_disc,
     coupon_match_disc
-FROM bronze.transaction_data   
+FROM bronze.transaction_data
+WHERE quantity > 0   
 SELECT *
 FROM silver.transaction_data;

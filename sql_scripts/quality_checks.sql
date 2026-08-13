@@ -159,16 +159,16 @@ SELECT sales_value, quantity, retail_disc, LEN(sales_value)
 FROM bronze.transaction_data
 WHERE LEN(sales_value) > 9;
 /* 
-All data with scientific notations on sales_value has 0 sales quantitty, 
-so we can ignore these rows or replace with 0 for now. */       
-
---! The rows with floating point noises are basically 0; let's replace them with 0 in the silver table.
+All data with scientific notations on sales_value has 0 sales quantity, 
+so we can ignore these rows or replace with 0 for now. 
+We can also drop those 0 quantity products as they are not useful for analysis. */       
 SELECT household_key, basket_id, day, product_id, quantity,
-    CASE WHEN sales_value > 0 AND sales_value < 0.005 THEN 0 ELSE sales_value END AS sales_value,
-     store_id, 
-    CASE WHEN retail_disc > 0 AND retail_disc < 0.005 THEN 0 ELSE retail_disc END AS retail_disc,
+    sales_value,
+    store_id, 
+    retail_disc,
     trans_time, week_no, coupon_disc, coupon_match_disc
-FROM bronze.transaction_data   
+FROM bronze.transaction_data
+WHERE quantity > 0
 
 --===============================================
 -- Household demographics table checks
