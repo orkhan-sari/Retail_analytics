@@ -146,17 +146,16 @@ SELECT
     store_id,
     day,
     week_no,
+    CEILING(week_no / 13.0) AS quartal,
     trans_time,
     quantity,
     retail_disc,
     coupon_disc,
     coupon_match_disc,
     loyalty_discount_applied, 
-    FORMAT(shelf_price, 'C', 'en-US') AS unit_shelf_price,
-    FORMAT(sales_value + coupon_disc, 'C', 'en-US') AS customer_paid_per_unit,
-    FORMAT(sales_value, 'C', 'en-US') AS total_sales_value
+    shelf_price,
+    sales_value
 FROM cte;
 
 SELECT *
-FROM gold.transaction_data;
-
+FROM gold.transaction_data

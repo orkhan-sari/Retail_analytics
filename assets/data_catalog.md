@@ -16,15 +16,15 @@ The Gold Layer is the business-level data representation, structured to support 
 | store_id                    | INT           | Identifies unique stores                                         |
 | day                         | INT           | Day when transaction occurred                                    |
 | week_no                     | INT           | Week of the transaction. Ranges 1 – 102                          |
+| quartal                     | INT           | Quartal of the transaction. Ranges 1 – 8                         |
 | trans_time                  | INT           | Time of day when transaction occurred                            |
 | quanitity                   | INT           | Number of the products purchased during the trip                 |
 | retail_desc                 | DECIMAL(10, 2)| Discount applied due to retailer’s loyalty card programme        |
 | coupon_desc                 | DECIMAL(10, 2)| Discount applied due to manufacturer coupon                      |
 | coupon_match_desc           | DECIMAL(10, 2)| Discount applied due to retailer’s match of manufacturer coupon  |
 | loyalty_discount_applied    | VARCHAR(50)   | If loyalty discount was applied to the item                      |
-| unit_shelf_price            | MONEY         | Shelf price in $                                                 |
-| customer_paid_per_unit     | MONEY         | Ammount paid by the customer for the unit of the item ($)        |
-| total_sales_value           | MONEY         | Amount of dollars retailer receives from the sales ($)           |
+| shelf_price                 | DECIMAL(10, 2)| Shelf price in $                                                 |
+| sales_value                 | DECIMAL(10, 2)| Amount of dollars retailer receives from the sales ($)           |
 ---
 
 ### 2. **gold.product**
