@@ -62,16 +62,16 @@ The dataset provides an opportunity to analyze:
 
 # Data Architecture
 
-The project follows a simplified **Medallion Architecture**.
+The project follows a simplified **Medallion Architecture**. The overall data pipeline is structured as follows:
 
-Data Flow: 
 ![Data Flow](assets/data_flow.png)
 
-Data Model:
+## Data Model
 ![Data Model](assets/data_model.png)
 
-
-![Data Catalog](assets/data_catalog.md)
+## Data Catalog
+The data catalog provides detailed information about the tables, columns, data types, definitions, and business meaning of the data.
+📖 **[View the Data Catalog](assets/data_catalog.md)**
 
 ---
 
