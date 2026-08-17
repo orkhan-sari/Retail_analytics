@@ -48,7 +48,6 @@ I will calculate the following metrics to answer these questions:
     - Total revenue generated for each department and brand types seperately.
     - Number of transactions for each department and brand types seperately.
     - Who are the top 10 manufacturers by customers size and total sales value?
-    - 
 */
 SELECT *
 FROM gold.transaction_data
@@ -120,7 +119,7 @@ JOIN gold.product p
     ON td.product_id = p.product_id
 GROUP BY p.commodity_desc
 ORDER BY total_units_sold DESC;
--- Soft dinks, fluid milk , and bread/bun/rolls are the top 3 commodities purchsed
+-- Soft dinks, fluid milk , and bread/bun/rolls are the top 3 commodities purchased
 
 WITH comm_sales AS (
     select p.commodity_desc,
@@ -188,7 +187,7 @@ cummulative AS (
     FROM share)
 SELECT COUNT(commodity_desc) AS total_commodities_generating_80_percent_of_sales
 FROM cummulative
-WHERE cumulative_sales_share <= 80 -- 95 commudities generate 80% of the total sales value.
+WHERE cumulative_sales_share <= 80 -- 95 (out of 307) commodities generate 80% of the total sales value.
 
 
 --=====================================
@@ -198,6 +197,8 @@ WHERE cumulative_sales_share <= 80 -- 95 commudities generate 80% of the total s
     - Calculate customer lifetime value (CLV) for the whole of the period available
      and average sales per transaction for each customer. Identify top 50 customers based on the CLV metric. 
     - Identify frequent, medium and low frequency shoppers. 
+    - Customer recency: how much time has passed since their last purchase? 
+    - 
 */
 
 SELECT TOP 50
@@ -232,3 +233,123 @@ SELECT household_key,
     END AS frequency_segment
 FROM ntile_seg;
 
+-- customer recency
+SELECT MAX(day) as last_purchase_date
+FROM gold.transaction_data 
+-- 711 is the last day of the dataset, so we can use this to calculate recency for each customer
+
+SELECT household_key,
+    count(DISTINCT basket_id) AS number_of_purchases,
+    MIN(DAY) as first_purchase_date,
+    MAX(DAY) as last_purchase_date,
+    MAX(DAY) - MIN(DAY) AS days_between_first_and_last_purchase,
+    (SELECT MAX(day) FROM gold.transaction_data ) - MAX(DAY) AS days_since_last_purchase
+FROM gold.transaction_data
+group by household_key
+ORDER BY days_since_last_purchase DESC
+/* some customers were one time shoppers,
+ and some customers were around for a couple of weeks are left.
+ This identifies inactive customers of the bussiness and one time shoppers*/
+
+
+--=====================================
+-- 4. Basket analyses 
+--=====================================
+/*
+    - What is the average weekly basket size and value for each customer?
+        - I cosnider basket size as product diversity and not the quantity of products purchased.
+    - How does average basket size grow over time for each customer?
+    - Which products are bought together most frequently? 
+        - Let's identify the top 10 product pairs
+    - Which departments' products are purhcased together most frequently? 
+*/
+
+SELECT household_key,
+    week_no, 
+    SUM(basket_size) AS total_basket_size,
+    AVG(basket_size) AS average_basket_size,
+    AVG(sales_value) AS average_basket_value
+FROM (
+    SELECT household_key,
+        week_no, 
+        basket_id,
+        COUNT(DISTINCT product_id) AS basket_size,
+        SUM(sales_value) AS sales_value -- will be unique anyways 
+    FROM gold.transaction_data
+    GROUP BY household_key, week_no, basket_id
+    ) as basket_data
+GROUP BY household_key, week_no
+ORDER BY household_key, week_no
+-- Most customers seem to make purchases once or twice a week. 
+-- Let's investigate how the average basket size and sales grow over quartals. 
+
+SELECT household_key,
+    quartal, 
+    AVG(basket_size) AS average_basket_size,
+    AVG(sales_value) AS average_basket_value,
+    SUM(sales_value) AS total_sales_value
+FROM (
+    SELECT household_key,
+        quartal, 
+        basket_id,
+        COUNT(DISTINCT product_id) AS basket_size,
+        SUM(sales_value) AS sales_value -- will be unique anyways
+    FROM gold.transaction_data
+    GROUP BY household_key, quartal, basket_id
+    ) as basket_data
+GROUP BY household_key, quartal
+ORDER BY household_key, quartal
+/* We can eyeball to investigate any patterns in the average basket size
+ and sales value over quartals. Let's explore this further*/
+
+WITH basket_data AS(
+    SELECT household_key,
+        quartal, 
+        basket_id,
+        COUNT(DISTINCT product_id) AS basket_size,
+        SUM(sales_value) AS sales_value -- will be unique anyways
+    FROM gold.transaction_data
+    GROUP BY household_key, quartal, basket_id
+),
+averages AS (SELECT household_key,
+    quartal, 
+    AVG(basket_size) AS average_basket_size,
+    AVG(sales_value) AS average_basket_value
+    FROM basket_data
+    GROUP BY household_key, quartal)
+SELECT household_key,
+    quartal, 
+    average_basket_size,
+    LEAD(average_basket_size) OVER(PARTITION BY household_key 
+                            ORDER BY quartal) - average_basket_size AS Growth_in_basket_size
+FROM averages
+
+-- Which products are bought together most frequently?
+SELECT TOP 10
+    td.product_id AS product_1,
+    td2.product_id AS product_2,
+    COUNT(DISTINCT td.basket_id) AS number_of_times_bought_together
+FROM gold.transaction_data td
+JOIN gold.transaction_data td2
+    ON td.basket_id = td2.basket_id
+    AND td.product_id < td2.product_id -- to avoid duplicates
+GROUP BY  td.product_id, td2.product_id
+ORDER BY number_of_times_bought_together DESC;
+
+-- Which departments' products are purhcased together most frequently?
+with departments AS (
+    SELECT td.basket_id, 
+            p.department
+    from gold.transaction_data td
+    JOIN gold.product p
+        ON td.product_id = p.product_id)
+SELECT TOP 10
+    d.department as department_1,
+    d2.department as department_2,
+    COUNT(DISTINCT d.basket_id) AS number_of_times_bought_together
+FROM departments d
+JOIN departments d2
+    ON d.basket_id = d2.basket_id
+    AND d.department < d2.department -- to avoid duplicates
+GROUP BY  d.department, d2.department
+ORDER BY number_of_times_bought_together DESC;
