@@ -37,7 +37,7 @@ The dataset provides an opportunity to analyze:
 - Campaigns
 - Customer demographics
 
-> **Note:** The source data is not included in this repository where licensing/distribution restrictions apply. Instructions for obtaining the dataset are provided separately.
+> **Note:** The source data is not included in this repository where licensing/distribution restrictions may apply. Instructions for obtaining the dataset are provided separately.
 
 ---
 
@@ -64,15 +64,20 @@ The dataset provides an opportunity to analyze:
 
 The project follows a simplified **Medallion Architecture**.
 
+Data Flow: 
 ![Data Flow](assets/data_flow.png)
+
+Data Model:
 ![Data Model](assets/data_model.png)
+
+
 ![Data Catalog](assets/data_catalog.md)
 
 ---
 
 # Exploratory Data Analysis
 
-The current analysis is organized around several business areas. ![Data Anlyses](data_analyses.sql) script includes all relevant questions and codes.
+The current analysis is organized around several business areas. ![Data Analyses](data_analyses.sql) script includes all relevant questions and codes.
 
 ---
 
