@@ -353,3 +353,107 @@ JOIN departments d2
     AND d.department < d2.department -- to avoid duplicates
 GROUP BY  d.department, d2.department
 ORDER BY number_of_times_bought_together DESC;
+
+--=====================================
+-- 5. Coupon analyses 
+--=====================================
+/*
+- How important are loyalty discounts to total sales? Compare sales with discount and without discount.
+- Which campaign generated the most redemptions?
+- Which customer segments respond most to coupons?
+- Do promotions increase basket size?
+*/
+
+SELECT loyalty_discount_applied,
+     count(loyalty_discount_applied) AS total_transactions,
+    sum(sales_value) AS total_sales_value,
+    AVG(sales_value) AS average_sales_value
+FROM gold.transaction_data
+GROUP BY loyalty_discount_applied
+-- similar number of transactions with and without loyalty discount applied.
+-- higher total sales value when loyalty discount is applied than when not applied.
+
+
+/* Let's explore if customers are more likely to spend more when 
+they redeem a loyalty discount for any product during the shopping instance*/
+SELECT 
+    sales_with_discount,
+    count(sales_with_discount) AS total_transactions,
+    SUM(sales_value) AS total_sales_value,
+    AVG(sales_value) AS average_sales_value
+FROM(
+    select basket_id, loyalty_discount_applied, sales_value,
+        MAX(CASE WHEN loyalty_discount_applied = 'Yes' THEN  1 ELSE 0 END) OVER(
+            PARTITION BY basket_id) AS sales_with_discount
+    from gold.transaction_data
+) t
+GROUP BY sales_with_discount
+
+/* 
+Indeed at instances where customers redeem a loyalty discount for any product,
+    they have spent more in total.
+However, on average terms, they spend less than when they do not redeem a loyalty discount 
+    during the shopping instance instance. This interesting and counterintuitive finding
+    worth exploring for outliers. 
+*/
+
+-- Which campaign generated the most redemptions?
+
+WITH campaign_table AS (
+    SELECT campaign,
+        redemption_status,
+        COUNT(redemption_status) AS count
+    FROM gold.coupon
+    GROUP BY campaign, redemption_status
+    ),
+coupon_table AS(
+    SELECT campaign_table.*, gc.description
+    FROM campaign_table
+    LEFT JOIN gold.campaign gc
+        ON campaign_table.campaign = gc.campaign
+)
+SELECT description, redemption_status,
+    count(description) as count
+FROM coupon_table
+GROUP BY description, redemption_status
+ORDER BY description, redemption_status
+/* Type A campaign had more coupons and exactly half were redeemed.  
+ More of Type C campaings were redeemed which indicates better targeting.
+*/
+
+-- Which customer segments respond most to coupons?
+/* NOTE: data only provides information for the portion of clients and does not provide information on specific coupons sent to customers. 
+Thus we only have information about clients who redeemed their coupons and not those who did not redeem their coupons. 
+This is not possible to retreive from the data provided*/
+
+
+SELECT gc.household_key, gc.campaign, gc.redemption_status,
+        gh.age_group,
+        gh.home_ownership_status, -- some missing due to the portion of clients covered
+        gh.kids_in_household
+INTO #temp_customer_analytics
+FROM gold.coupon gc
+LEFT JOIN gold.hh_demographics gh
+    ON gc.household_key = gh.household_key
+WHERE redemption_status = 'Redeemed'
+
+SELECT age_group,
+    COUNT(age_group) AS count
+FROM #temp_customer_analytics
+GROUP BY age_group
+ORDER BY count DESC
+-- Most of the redeemed coupons were redeemed by customers in Age group 4
+
+SELECT home_ownership_status, 
+    COUNT(home_ownership_status) AS count
+FROM #temp_customer_analytics
+GROUP BY home_ownership_status
+ORDER BY count DESC
+-- Most of the redeemed coupons were redeemed by hoemowners
+
+SELECT kids_in_household,
+    COUNT(kids_in_household) AS count
+FROM #temp_customer_analytics
+GROUP BY kids_in_household
+ORDER BY count DESC
+-- Most of the redeemed coupons were redeemed by customers with no or unknown kids 
