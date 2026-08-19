@@ -457,3 +457,44 @@ FROM #temp_customer_analytics
 GROUP BY kids_in_household
 ORDER BY count DESC
 -- Most of the redeemed coupons were redeemed by customers with no or unknown kids 
+
+--=====================================
+-- 6. Seasonality analyses 
+--=====================================
+/*
+- When do customers buy the most?
+- Which departments have unusually high sales during certain periods?
+*/
+SELECT quartal, week_no, total_sales_value,
+    SUM(total_sales_value) OVER(PARTITION BY quartal ORDER BY week_no) AS cumulative_sales_value,
+    RANK() OVER(PARTITION BY quartal ORDER BY total_sales_value DESC) AS weekly_ranking
+FROM (
+    SELECT quartal , week_no, 
+        SUM(sales_value) as total_sales_value
+    FROM gold.transaction_data
+    GROUP BY quartal, week_no
+) as t
+ORDER BY quartal, week_no;
+
+/*
+Week 13 has the highest sales value in the first quartal, week 25  in the second quartal,
+week 38 in the third quartal and week 46 in the fourth quartal.
+In general, the sales have grown over the quartals. Note that there are not only four quartals as
+I have devided the the whole of data into quartals and not the year becuase the dates of data are not clearly defined/shared
+*/
+SELECT department, quartal,
+    SUM(sales_value) AS total_sales_value
+FROM (
+    select p.department, td.quartal, td.sales_value
+    from gold.transaction_data td
+    LEFT JOIN gold.product p
+        ON td.product_id = p.product_id
+) as t
+GROUP BY department, quartal
+ORDER BY department, quartal
+/*
+Main business department, has seen a surprisingly low sales during the first quartal.
+Automative had usually high sales in quartal 9
+Chef Shoppe had unusually high sales in quartal 6, almost 15 times of that in quartal 1. 
+Garden Center had unusually high sales in quartal 5
+*/

@@ -57,7 +57,9 @@ The dataset provides an opportunity to analyze:
 - Ranking
 - Customer segmentation
 - Time-series analysis
-- Basket analysis
+- Basket analyses
+- Campaign analyses
+- Seasonality analyses
 
 
 # Data Architecture
