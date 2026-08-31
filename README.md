@@ -2,9 +2,9 @@
 
 ## Analytics Project
 
-A retail analytics project using **The Complete Journey** dataset from Dunnhumby. The project is designed to demonstrate practical skills in **SQL Server, data engineering, exploratory data analysis, customer analytics, and business intelligence**.
+An end-to-end retail analytics project using **The Complete Journey** dataset from Dunnhumby. The project is designed to demonstrate practical skills in **SQL Server, data engineering, exploratory data analysis, customer analytics, and business intelligence. The project implements data preparation and exploratory analysis in SQL Server and extends to a Power BI dashboard for key performance indicators**
 
----
+------------------------------------------------------------------------
 
 ## Project Overview
 
@@ -21,11 +21,11 @@ The analysis focuses on questions relevant to grocery and retail businesses, inc
 - Promotion and campaign effectiveness
 - Customer segmentation
 
----
+------------------------------------------------------------------------
 
 # Dataset
 
-The project uses [Dunnhumby's The Complete Journey](https://www.dunnhumby.com/source-files/) dataset, which contains  real in-store household-level grocery transaction data together with product, campaign, coupon, and some demographic information.
+The project uses [Dunnhumby's The Complete Journey](https://www.dunnhumby.com/source-files/) dataset, which contains real in-store household-level grocery transaction data together with product, campaign, coupon, and some demographic information.
 
 The dataset provides an opportunity to analyze:
 
@@ -39,14 +39,16 @@ The dataset provides an opportunity to analyze:
 
 > **Note:** The source data is not included in this repository where licensing/distribution restrictions may apply. Instructions for obtaining the dataset are provided separately.
 
----
+------------------------------------------------------------------------
 
 # Tools
+
 ### Data Engineering & Database
 
 - **Microsoft SQL Server**
 - **T-SQL**
 - Data cleaning and validation
+- **POWER BI**
 
 ### Analytics
 
@@ -61,6 +63,13 @@ The dataset provides an opportunity to analyze:
 - Campaign analyses
 - Seasonality analyses
 
+### Business Intelligence
+
+![Power BI Dashboard](powerbi/dashboard.png)
+
+### Version Control
+
+GitHub Desktop
 
 # Data Architecture
 
@@ -69,31 +78,34 @@ The project follows a simplified **Medallion Architecture**. The overall data pi
 ![Data Flow](assets/data_flow.png)
 
 ## Data Model
+
 ![Data Model](assets/data_model.png)
 
 ## Data Catalog
-The data catalog provides detailed information about the tables, columns, data types, definitions, and business meaning of the data.
-📖 **[View the Data Catalog](assets/data_catalog.md)**
 
----
+The data catalog provides detailed information about the tables, columns, data types, definitions, and business meaning of the data. 📖 [**View the Data Catalog**](assets/data_catalog.md)
+
+------------------------------------------------------------------------
 
 # Exploratory Data Analysis
 
 The current analysis is organized around several business areas. ![Data Analyses](data_analyses.sql) script includes all relevant questions and codes.
 
----
-
+------------------------------------------------------------------------
 
 # Repository Structure
 
-```
+```         
 dunnhumby-retail-analytics/
 │
 ├── README.md
 │
 ├── data/
 │   └── README.md
-│
+├── powerbi/
+│   └── dashboard.png
+│   └── BI_report.pbix
+|
 ├── sql_scripts/
 │   ├── bronze_layer/
 |   |   ├── bronze_load.sql/
@@ -113,7 +125,7 @@ dunnhumby-retail-analytics/
 │   └── data_flow.png
 ```
 
----
+------------------------------------------------------------------------
 
 # Business Value
 
@@ -130,4 +142,4 @@ Potential applications include:
 - Identifying changes in purchasing behavior
 - Supporting targeted marketing decisions
 
----
+------------------------------------------------------------------------
